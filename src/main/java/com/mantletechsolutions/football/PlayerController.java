@@ -1,33 +1,46 @@
 package com.mantletechsolutions.football;
 
 import java.util.List;
+
+import com.mantletechsolutions.football.model.Player;
+import com.mantletechsolutions.football.services.FootballService;
 import org.springframework.web.bind.annotation.*;
 @RequestMapping("/players")
 @RestController
 public class PlayerController {
 
+    private FootballService footballService;
+
+    public PlayerController(FootballService footballService){
+
+        this.footballService = footballService;
+    }
+
+
     @GetMapping
-    public List<String> listPlayers() {
-        return List.of("Ivana ANDRES", "Alexia PUTELLAS");
+    public List<Player> listPlayers() {
+        return  footballService.listPlayers();
     }
 
 
     @PostMapping
-    public String createPlayer(@RequestBody String name) {
-    return "Player " + name + " created";
+    public void  createPlayer(@RequestBody Player player) {
+      footballService.addPlayer(player);
     }
 
     @GetMapping("/{name}")
-    public String readPlayer(@PathVariable String name) {
-        return name;
-    }
-    @DeleteMapping("/{name}")
-    public String deletePlayer(@PathVariable String name) {
-    return "Player " + name + " deleted";
+    public Player readPlayer(@PathVariable String id) {
+        return footballService.getPlayer(id);
     }
 
+
     @PutMapping("/{name}")
-    public String updatePlayer(@PathVariable String name, @RequestBody String newName) {
-    return "Player " + name + " updated to " + newName;
+    public void  updatePlayer(@PathVariable String id, @RequestBody Player player) {
+   footballService.updatePlayer(player);
+    }
+
+    @DeleteMapping("/{name}")
+    public void deletePlayer(@PathVariable String id) {
+       footballService.deletePlayer(id);
     }
 }
