@@ -28,7 +28,7 @@ public class PlayerController {
       footballService.addPlayer(player);
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/{id}")
     public Player readPlayer(@PathVariable String id) {
         return footballService.getPlayer(id);
     }
